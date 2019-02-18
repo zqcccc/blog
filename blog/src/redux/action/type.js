@@ -1,0 +1,14 @@
+/* TODO AND TIP:
+
+这里是为了方便使用声明的一些标记名，一般采用名和内容相同的大写字符串，例如：
+
+export const REQUEST_DATA = "REQUEST_DATA";
+
+*/
+
+export const REQUEST_LIST_SUCCESS = 'REQUEST_LIST_SUCCESS'
+export const REQUEST_CONTENT_SUCCESS = 'REQUEST_CONTENT_SUCCESS'
+
+export const REQUEST_START = 'REQUEST_START'
+export const REQUEST_SUCCESS = 'REQUEST_SUCCESS'
+export const REQUEST_FAILURE = 'REQUEST_FAILURE'
