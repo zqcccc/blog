@@ -73,7 +73,7 @@ class tag extends Component {
                 message: '标签描述不能为空'
               }
             ]
-          })(<TextArea defaultValue='请输入标签描述' onPressEnter={this.handleSubmit}/>)}
+          })(<TextArea placeholder='请输入标签描述' onPressEnter={this.handleSubmit}/>)}
         </FormItem>
         <FormItem {...offsetLayout}>
           <Button type="primary" onClick={this.handleSubmit}>

@@ -14,10 +14,12 @@ export default class TopBar extends Component {
   }
   componentDidMount() {
     const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo')) || {}
-    const {
-      user: { id = 'xxx', name = 'c9cu' }
-    } = userInfo
-    this.setState({ id, name })
+    if (userInfo.user) {
+      const {
+        user: { id = 'xxx', name = 'c9cu' }
+      } = userInfo
+      this.setState({ id, name })
+    }
   }
   render() {
     return (

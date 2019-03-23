@@ -18,12 +18,12 @@ class tagList extends Component {
     super(props)
     this.state = { title: '', type: '', tagInfo: {}, isVisible: false }
     this.columns = [
-      {
-        title: 'id',
-        key: '_id',
-        dataIndex: '_id',
-        width: '10'
-      },
+      // {
+      //   title: 'id',
+      //   key: '_id',
+      //   dataIndex: '_id',
+      //   width: '10'
+      // },
       {
         title: '标签名',
         key: 'name',
@@ -38,12 +38,12 @@ class tagList extends Component {
         editable: true,
         width: '30%'
       },
-      {
-        title: '文章数',
-        key: 'num',
-        dataIndex: 'num',
-        width: '10%'
-      },
+      // {
+      //   title: '文章数',
+      //   key: 'num',
+      //   dataIndex: 'num',
+      //   width: '10%'
+      // },
       {
         title: 'operation',
         dataIndex: 'operation',
@@ -151,7 +151,7 @@ class tagList extends Component {
           columns={this.columns}
           dataSource={list}
           pagination={false}
-          scroll={{ x: true }}
+          // scroll={{ x: true }}
         />
         <Modal
           title={this.state.title}

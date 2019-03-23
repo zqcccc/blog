@@ -10,8 +10,9 @@ import Home from './components/home'
 import Login from './components/Login'
 import Tags from './containers/tags'
 import tag from './containers/tags/tag'
-import Article from './components/article'
-import newArticle from './components/article/article'
+import Article from './containers/article'
+import newArticle from './containers/article/article'
+import Comment from './containers/comment'
 
 class RootRouter extends Component {
   render() {
@@ -19,17 +20,31 @@ class RootRouter extends Component {
       <Router>
         <Switch>
           <Route path="/login" component={Login} />
-          <Route path="/newArticle" component={newArticle} />
           <Route
             path="/"
             render={props => (
               <Layout {...props}>
                 <Switch>
-                  <Route path="/home" component={Home} />
-                  <Route path="/articles" component={Article} />
-                  <Route path="/tags" component={Tags} />
-                  <Route path="/addTag" component={tag} />
-                  <Route path="/test" component={Tags} />
+                  <Route
+                    path="/home"
+                    component={props => requireAuth(Home, props)}
+                  />
+                  <Route
+                    path="/articles"
+                    component={props => requireAuth(Article, props)}
+                  />
+                  <Route
+                    path="/tags"
+                    component={props => requireAuth(Tags, props)}
+                  />
+                  <Route
+                    path="/comments"
+                    component={props => requireAuth(Comment, props)}
+                  />
+                  <Route
+                    path="/test"
+                    component={props => requireAuth(Tags, props)}
+                  />
                   <Redirect to="/home" />
                 </Switch>
               </Layout>

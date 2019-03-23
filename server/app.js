@@ -55,7 +55,7 @@ app.use(
   jwt({
     secret: CONFIG.secret
   }).unless({
-    path: [/\/register/, /\/login/, /\/article/, /\/tag/, /\/test/],
+    path: [/\/register/, /\/login/, /\/test/],
     method: ['GET']
   })
 )

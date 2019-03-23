@@ -1,3 +1,4 @@
+import { connect } from 'react-redux'
 import React from 'react'
 import { Form, Icon, Input, Button, Checkbox, Col, message } from 'antd'
 import './index.less'
@@ -23,9 +24,14 @@ class NormalLoginForm extends React.Component {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         const res = await axios.api_post_login(values)
-        console.log('res.data: ', res.data);
-        window.sessionStorage.setItem("userInfo", JSON.stringify(res.data))
-        window.location.href = '/'
+        if (res && res.data.code) {
+          message.success(res.data.msg)
+          window.sessionStorage.setItem('userInfo', JSON.stringify(res.data))
+          window.location.href = '/'
+        } else {
+          console.log('res.data: ', res.data)
+          message.error(res.data.msg)
+        }
       }
     })
   }
@@ -34,8 +40,17 @@ class NormalLoginForm extends React.Component {
     message.warning('功能暂不开放')
   }
 
+  // componentWillUpdate() {
+  //   const { status } = this.props
+  //   if (status.isSuccess && status.msg) {
+  //     message.success(status.msg)
+  //   } else if (status.isFail && status.msg) {
+  //     message.error(status.msg)
+  //   }
+  // }
   render() {
     const { getFieldDecorator } = this.props.form
+    // console.log(this.props)
     return (
       <div className="login-wrapper">
         <Col {...LoginLayout}>
@@ -75,7 +90,11 @@ class NormalLoginForm extends React.Component {
                 valuePropName: 'checked',
                 initialValue: true
               })(<Checkbox>Remember me</Checkbox>)}
-              <a className="login-form-forgot" href="" onClick={this.handleUnOpen}>
+              <a
+                className="login-form-forgot"
+                href=""
+                onClick={this.handleUnOpen}
+              >
                 Forgot password
               </a>
               <Button
@@ -97,4 +116,7 @@ class NormalLoginForm extends React.Component {
   }
 }
 
-export default Form.create({ name: 'normal_login' })(NormalLoginForm)
+export default connect(
+  ({ status }) => ({ status }),
+  {}
+)(Form.create({ name: 'normal_login' })(NormalLoginForm))

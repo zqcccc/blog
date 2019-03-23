@@ -25,7 +25,12 @@ var server = http.createServer(app.callback());
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen(port, () => {
+  // const host = server.address().address
+  const port = server.address().port
+
+  console.log("应用实例，访问地址为 http://localhost:%s", port)
+});
 server.on('error', onError);
 server.on('listening', onListening);
 

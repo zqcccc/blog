@@ -7,7 +7,7 @@ module.exports = {
   async getList(ctx) {
     const { tag = '', keyword = '' } = ctx.query
     const fields = {
-      content: false,
+      // content: false,
       __v: false
     }
     try {
@@ -19,9 +19,11 @@ module.exports = {
         const keywordReg = new RegExp(keyword)
         querys.$or = [{ title: keywordReg }, { descript: keywordReg }]
       }
-      const res = await Article.find(querys, fields).sort({
-        update_at: '-1'
-      })
+      const res = await Article.find(querys, fields)
+        .populate('tag')
+        .sort({
+          update_at: '1'
+        })
       ctx.body = {
         code: 1,
         msg: '获取文章列表成功',
@@ -132,7 +134,7 @@ module.exports = {
         }
       }
     } catch (error) {
-      console.log('修改文章过程错误', err)
+      console.log('修改文章过程错误', error)
       ctx.body = {
         code: 0,
         msg: '修改失败'
@@ -172,18 +174,41 @@ module.exports = {
 
   async test(ctx) {
     try {
-      const { tag = '5c653a7ab36c700c7c4098b6', keyword = '测试' } = ctx.query
+      const { tag = '', keyword = '' } = ctx.query
+      let querys = {}
+      if (tag) {
+        console.log(tag)
+        querys.tag = tag
+      }
+      if (keyword) {
+        query['title'] = new RegExp(keyword)
+      }
+      const res = await Article.find(querys).populate([{ path: 'tag' }])
+
+      // const res = await Article.find().populate('tag','_id name descript')
+      ctx.body = {
+        code: 1,
+        msg: '获取文章成功',
+        res
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  async test1(ctx) {
+    try {
+      const { tag = '', keyword = '' } = ctx.query
       const opts = [
-      //   { $unwind: '$tag' },
-      //   {
-      //     $group: {
-      //       _id: '$tag',
-      //       articles: { $push: { _id: '$_id', title: '$title' } },
-      //       count: { $sum: 1 }
-      //     }
-      //   },
-      { $match: { tag :new mongoose.Types.ObjectId(tag) } },
-      // { $match: { $or: [ { title: {$regex: keyword} },  ] } },
+        //   { $unwind: '$tag' },
+        //   {
+        //     $group: {
+        //       _id: '$tag',
+        //       articles: { $push: { _id: '$_id', title: '$title' } },
+        //       count: { $sum: 1 }
+        //     }
+        //   },
+        // { $match: { tag: new mongoose.Types.ObjectId(tag) } },
+        // { $match: { $or: [ { title: {$regex: keyword} },  ] } },
         {
           $lookup: {
             from: 'tags',
@@ -192,26 +217,30 @@ module.exports = {
             as: 'tag'
           }
         },
-        { $project: {
-          title: 1,
-          tag: {
-            "_id":1,
-            "name":1
-          },
-          update_at:1
-        },
-       },
-       { $sort : { update_at: -1 } }
+        // {
+        //   $project: {
+        //     title: 1,
+        //     tag: {
+        //       _id: 1,
+        //       name: 1
+        //     },
+        //     update_at: 1
+        //   }
+        // },
+        { $sort: { update_at: -1 } }
       ]
-      if(tag!==''){
-
+      if (keyword) {
+        opts.unshift({ $match: { $or: [{ title: { $regex: keyword } }] } })
+      }
+      if (tag) {
+        opts.unshift({ $match: { tag: new mongoose.Types.ObjectId(tag) } })
       }
       const res = await Article.aggregate(opts)
 
       // const res = await Article.find().populate('tag','_id name descript')
       ctx.body = {
         code: 1,
-        msg: '获取标签成功',
+        msg: '获取文章列表成功',
         res
       }
     } catch (error) {

@@ -25,6 +25,9 @@ export default (
         isFail: false
       })
     }
+    case actionTypes.POST_ARTICLE_SUCCESS:
+    case actionTypes.EDIT_ARTICLE_SUCCESS:
+    case actionTypes.DELETE_ARTICLE_SUCCESS:
     case actionTypes.GET_ARTICLE_LIST_SUCCESS:
     case actionTypes.GET_TAG_LIST_SUCCESS:
     case actionTypes.DELETE_TAG_SUCCESS:

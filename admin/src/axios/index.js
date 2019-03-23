@@ -45,6 +45,22 @@ export default {
   api_get_article({ keyword = '', tag = ''}) {
     return instance.get(`/api/article?tag=${tag}&keyword=${keyword}`);
   },
+  // 添加文章
+  api_post_article(data) {
+    return instance.post('/api/article', data);
+  },
+  // 获取文章详情
+  api_get_article_detail(_id) {
+    return instance.get(`/api/article/${_id}`);
+  },
+  // 修改文章
+  api_put_article(data) {
+    return instance.put(`/api/article/${data._id}`, data);
+  },
+  // 删除文章
+  api_delete_article(_id) {
+    return instance.delete(`/api/article/${_id}`);
+  },
   // 获取标签列表
   api_get_tag() {
     return instance.get('/api/tag');
@@ -61,4 +77,13 @@ export default {
   api_put_tag(data) {
     return instance.put(`/api/tag/${data._id}`, data);
   },
+  // 获取所有评论
+  api_get_comment() {
+    return instance.get('/api/comment')
+  },
+  // 删除评论
+  api_delete_comment(_id) {
+    return instance.delete(`/api/comment/${_id}`)
+  }
+
 }

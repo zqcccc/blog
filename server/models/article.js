@@ -4,6 +4,7 @@ const { Schema, model } = db
 const ArticleSchema = new Schema({
   title: { type: String, required: true },
   tag: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
+  // comment: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
   content: { type: String, required: true },
   descript: { type: String },
   create_at: { type: Date, default: Date.now },

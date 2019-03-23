@@ -127,15 +127,15 @@ module.exports = {
       const tag = await Tag.deleteOne({ _id })
       if (tag.length) {
         ctx.body = {
-          code: 1,
-          msg: 'test删除标签成功',
+          code: 0,
+          msg: 'test删除标签失败',
           tag
         }
         return
       }
       ctx.body = {
-        code: 0,
-        msg: 'test删除标签失败',
+        code: 1,
+        msg: 'test删除标签成功',
         tag
       }
     } catch (error) {

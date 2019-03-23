@@ -13,11 +13,11 @@ const menuConfig = [
     key: '/home',
     icon: 'compass'
   },
-  {
-    title: '写文章',
-    key: '/newArticle',
-    icon: 'compass'
-  },
+  // {
+  //   title: '写文章',
+  //   key: '/newArticle',
+  //   icon: 'compass'
+  // },
   {
     title: '文章管理',
     key: '/articles',
@@ -26,7 +26,7 @@ const menuConfig = [
   {
     title: '标签管理',
     key: '/tags',
-    icon: 'tags',
+    icon: 'tags'
     // children: [
     //   {
     //     title: '添加标签',
@@ -115,8 +115,10 @@ export default class layout extends Component {
   }
   render() {
     const pathName = window.location.pathname
-    const {location:{pathname}} = this.props
-    const temp = menuConfig.filter(i=>i.key===pathName)[0] || {}
+    const {
+      location: { pathname }
+    } = this.props
+    const temp = menuConfig.filter(i => i.key === pathName)[0] || {}
     const title = temp.title || '后台'
     return (
       <Layout style={{ minHeight: '100vh' }}>
@@ -133,7 +135,7 @@ export default class layout extends Component {
           </Menu>
         </Sider>
         <Layout>
-          <Header title={title}/>
+          <Header title={title} />
           <Content style={{ margin: '16px 16px' }}>
             {/* <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>User</Breadcrumb.Item>

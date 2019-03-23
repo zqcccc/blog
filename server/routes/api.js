@@ -17,7 +17,10 @@ router
   .put('/tag/:id', controller.tag.putTag)
   .delete('/tag/:id', controller.tag.deleteTag)
 
+  .get('/comment', controller.comment.getAllComments)
   .get('/comment/:id', controller.comment.getComments)
+  .post('/comment', controller.comment.postComment)
+  .delete('/comment/:id', controller.comment.deleteComment)
 
   .post('/register', controller.user.register)
   .post('/login', controller.user.login)

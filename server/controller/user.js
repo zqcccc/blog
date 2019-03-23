@@ -15,11 +15,11 @@ module.exports = {
     }
     try {
       const user = await User.findOne({ name })
-      const idAndName = {
-        id: user._id || '',
-        name: user.name || '',
-      }
       if (user && (await bcrypt.compare(password, user.password))) {
+        const idAndName = {
+          id: user._id,
+          name: user.name,
+        }
         ctx.body = {
           code: 1,
           msg: '登录成功',
@@ -32,10 +32,10 @@ module.exports = {
           }, CONFIG.secret, { expiresIn: '1h' })
         }
       } else {
-        ctx.status = 401
+        // ctx.status = 401
         ctx.body = {
           code: 0,
-          msg: '登录失败'
+          msg: '登录失败，请检查用户名和密码'
         }
       }
     } catch (error) {

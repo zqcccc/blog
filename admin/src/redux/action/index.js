@@ -13,8 +13,50 @@ export const actionTypes = {
   REQUEST_FAIL: 'REQUEST_FAIL',
   REQUEST_SUCCESS: 'REQUEST_SUCCESS',
   GET_ARTICLE_LIST: 'GET_ARTICLE_LIST',
-  GET_ARTICLE_LIST_SUCCESS: 'GET_ARTICLE_LIST_SUCCESS'
+  GET_ARTICLE_LIST_SUCCESS: 'GET_ARTICLE_LIST_SUCCESS',
+  POST_ARTICLE: 'POST_ARTICLE',
+  POST_ARTICLE_SUCCESS: 'POST_ARTICLE_SUCCESS',
+  EDIT_ARTICLE: 'EDIT_ARTICLE',
+  EDIT_ARTICLE_SUCCESS: 'EDIT_ARTICLE_SUCCESS',
+  DELETE_ARTICLE: 'DELETE_ARTICLE',
+  DELETE_ARTICLE_SUCCESS: 'DELETE_ARTICLE_SUCCESS',
 }
+export const editArticle = article => ({
+  type: actionTypes.EDIT_ARTICLE,
+  payload : {
+    article
+  }
+})
+export const editArticleSuccess = () => ({
+  type: actionTypes.EDIT_ARTICLE_SUCCESS,
+  payload : {
+    msg: '修改文章成功'
+  }
+})
+export const deleteArticle = id => ({
+  type: actionTypes.DELETE_ARTICLE,
+  payload : {
+    id
+  }
+})
+export const deleteArticleSuccess = () => ({
+  type: actionTypes.DELETE_ARTICLE_SUCCESS,
+  payload : {
+    msg: '删除文章成功'
+  }
+})
+export const postArticle = article => ({
+  type: actionTypes.POST_ARTICLE,
+  payload : {
+    article
+  }
+})
+export const postArticleSuccess = () => ({
+  type: actionTypes.POST_ARTICLE_SUCCESS,
+  payload : {
+    msg: '添加文章成功'
+  }
+})
 export const getArtList = payload => ({
   type: actionTypes.GET_ARTICLE_LIST,
   payload
