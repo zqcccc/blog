@@ -56,12 +56,12 @@ class Nav extends React.Component{
                                 <span>关于</span>
                             </Link>
                         </li>
-                        <li className={ClassNames({'active': this.props.location.pathname === '/feedback'})}>
+                        {/* <li className={ClassNames({'active': this.props.location.pathname === '/feedback'})}>
                             <Link to={'/feedback'}>
                                 <i className="iconfont icon-guanyu1"></i>
                                 <span>反馈</span>
                             </Link>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
             </div>

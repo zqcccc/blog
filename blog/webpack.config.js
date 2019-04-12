@@ -23,6 +23,10 @@ module.exports = {
                 loader: 'style-loader!css-loader!less-loader'
             },
             {
+                test: /\.css$/,
+                loader: 'style-loader!css-loader'
+            },
+            {
                 test: /\.(png|jpg|gif)$/,
                 use: [
                     {
@@ -32,6 +36,12 @@ module.exports = {
                 ]
             }
         ]
+    },
+    devServer: {
+      port: 8081,
+      proxy: {
+        '/api': 'http://localhost:7777'
+      }
     },
     plugins: [
         // TODO: 删除无关内容
@@ -52,8 +62,8 @@ module.exports = {
             'router': path.resolve(__dirname, './src/router'),
         },
     },
-    externals: {
-        "react": 'React',
-        'react-dom': 'ReactDOM'
-    }
+    // externals: {
+    //     "react": 'React',
+    //     'react-dom': 'ReactDOM'
+    // }
 }

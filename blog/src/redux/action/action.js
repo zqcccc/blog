@@ -38,9 +38,13 @@ const requestFail = err => ({
 export const getList = () => async (dispatch, getState) => {
   dispatch(requestStart())
   try {
-    const res = await axios.get(`${preURL}/list`)
-    const data = res.data
-    return dispatch(receiveList(data))
+    const res = await axios.get(`/api/article`)
+    if(res.data.code&&res.data.data) {
+
+      return dispatch(receiveList(res.data.data))
+    } else {
+      return dispatch(requestFail(res.data.msg))
+    }
   } catch (err) {
     console.log('fetchList fail', err)
     alert('拉取数据失败，请检查网络或者联系管理员！')

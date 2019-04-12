@@ -3,6 +3,8 @@ const jwt = require('koa-jwt')
 const CONFIG = require('../config')
 const controller = require('../controller')
 
+const verify = jwt({secret: CONFIG.secret})
+
 router.prefix('/api')
 
 router
@@ -20,7 +22,7 @@ router
   .get('/comment', controller.comment.getAllComments)
   .get('/comment/:id', controller.comment.getComments)
   .post('/comment', controller.comment.postComment)
-  .delete('/comment/:id', controller.comment.deleteComment)
+  .delete('/comment/:id', verify, controller.comment.deleteComment)
 
   .post('/register', controller.user.register)
   .post('/login', controller.user.login)

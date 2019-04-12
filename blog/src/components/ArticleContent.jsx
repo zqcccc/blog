@@ -1,100 +1,116 @@
 import React from 'react'
-const queryString = require('query-string');
-import "./ArticleContent.less"
-import axios from "axios/index";
-import {preURL, publicURL} from "../config";
-import moment from "moment/moment";
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
-import { getContent } from 'action/action'
+const queryString = require('query-string')
+import './ArticleContent.less'
+import axios from 'axios/index'
+import { preURL, publicURL } from '../config'
+import moment from 'moment/moment'
+import { connect } from 'react-redux'
+import CodeBlock from './code-block'
+import { getContent, getList } from 'action/action'
+import CommentForm from './CommentForm'
+import CommentList from './CommentList'
 const ReactMarkdown = require('react-markdown')
 
-class ArticleContent extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            post:{}
-        }
+class ArticleContent extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      // post: {},
+      commentList: []
     }
+  }
 
-    componentDidMount(){
+  async componentDidMount() {
+    const query = this.props.match.params
+    const { list, getList } = this.props
+    const article = list.get(query.id)
+    if (!article) {
+      getList()
+    } // 如果 store 里有文章的内容就不请求了
+    axios.get(`/api/comment/${query.id}`).then(res => {
+      if (res.data && res.data.code && res.data.data) {
+        console.log(res)
+        this.setState({
+          commentList: res.data.data
+        })
+      }
+    })
+    // fetchData(`post?pathName=${query.pathName}`).then(() => {
+    //     content = this.props.contentList.get(query.pathName)
+    //     this.setState({
+    //         post: content || {}
+    //     })
+    // })
+    // axios.get(`${preURL}/post?pathName=${query.pathName}`).then((response) => {
+    //
+    //     this.setState({
+    //         post:response.data
+    //     })
+    // },(error) => {
+    //     alert('拉取数据失败，请配置后端博客服务！')
+    // })
+  }
 
-        const query = this.props.match.params;
-        const { contentList, getContent } = this.props
-        // TODO: 可以先采用 redux 中的信息
-        if(!contentList.get(query.pathName)) {
-            getContent(query.pathName)
-        } // 如果 store 里有文章的内容就不请求了
-        // fetchData(`post?pathName=${query.pathName}`).then(() => {
-        //     content = this.props.contentList.get(query.pathName)
-        //     this.setState({
-        //         post: content || {}
-        //     })
-        // })
-        // axios.get(`${preURL}/post?pathName=${query.pathName}`).then((response) => {
-        //     console.log('%c content response', 'color: #898989', response.data)
-        //     this.setState({
-        //         post:response.data
-        //     })
-        // },(error) => {
-        //     alert('拉取数据失败，请配置后端博客服务！')
-        // })
-    }
+  render() {
+    const query = this.props.match.params
+    // 先用列表页的元数据
+    const { list } = this.props
 
-    render(){
-        const query = this.props.match.params
-        // 先用列表页的元数据
-        const contentMeta = this.props.list.get(query.pathName) || {}
-        const content = this.props.contentList.get(query.pathName) || {}
+    // const contentMeta = list.get(query.title) || {}
 
-        return(
-            <div className={'post-container'}>
+    const content = list.get(query.id) || {}
 
-                <div className={'post-title'}>
-                    {content.title || contentMeta.title}
-                </div>
+    return (
+      <div className={'post-container'}>
+        <div className={'post-title'}>
+          {content.title || 'contentMeta.title'}
+        </div>
 
-                <div className={'post-meta'}>
+        <div className={'post-meta'}>
+          <span className={'attr'}>
+            发布于：
+            {moment(content.date || content.update_at || '').format(
+              'YYYY-MM-DD hh:mm:ss'
+            )}
+          </span>
 
-                    <span className={'attr'}>
-                        发布于：
-                        {moment(content.date || contentMeta.date).format('YYYY-MM-DD hh:mm:ss')}
-                    </span>
+          <span className={'attr'}>
+            标签：/
+            {(content.tag || []).map((item, index) => ' ' + item.name + ' /')}
+          </span>
 
-                    <span className={'attr'}>
-                        标签：/
-                        {(content.tags || contentMeta.tags || []).map((item, index) =>
-                            " " + item + " /"
-                        )}
-                    </span>
+          {/* <span className={'attr'}>访问：</span> */}
+        </div>
 
-                    <span className={'attr'}>
-                        访问：
-
-                    </span>
-
-                </div>
-
-
-                <div className={'post-content'}>
-                    <ReactMarkdown source={content._content || ''} />
-                </div>
-
-            </div>
-        )
-    }
+        <div className={'post-content'}>
+          <ReactMarkdown
+            source={content.content || ''}
+            renderers={{
+              code: CodeBlock
+            }}
+          />
+        </div>
+        <CommentList commentList={this.state.commentList || []} />
+        <CommentForm id={content._id} />
+      </div>
+    )
+  }
 }
 
-const mapStateToProps = (state) => {
-    const { status, contentList, list } = state
-    return { status, contentList, list }
+const mapStateToProps = state => {
+  const { status, contentList, list } = state
+  return { status, contentList, list }
 }
 // const mapDispatchToProps = dispatch => ({
 //     // 例如：yourAction:bindActionCreators(yourAction, dispatch),
 //     fetchData
 // })
 const mapDispatchToProps = {
-    getContent
+  getContent,
+  getList
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ArticleContent)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ArticleContent)

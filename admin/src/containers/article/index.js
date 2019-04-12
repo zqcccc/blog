@@ -37,9 +37,10 @@ class ArticleList extends React.Component {
       },
       {
         title: '发布时间',
-        key: 'create_at',
-        dataIndex: 'create_at',
-        // width: 10,
+        key: 'update_at',
+        dataIndex: 'update_at',
+        defaultSortOrder: 'descend',
+        sorter: (a, b) => moment(a.update_at) - moment(b.update_at),
         render: time => (
           <span key={time}>
             {moment(time).format("YYYY-MM-DD h:mm:ss A")}
@@ -151,6 +152,9 @@ class ArticleList extends React.Component {
       message.error(status.msg)
     }
   }
+  onChange = (pagination, filters, sorter) => {
+    console.log('params', pagination, filters, sorter);
+  }
   render() {
     const { article: list = [], status, tag } = this.props
     // console.log(list)
@@ -167,6 +171,7 @@ class ArticleList extends React.Component {
         </Button>
         <Table
           bordered
+          onChange={this.onChange}
           loading={status.isLoading}
           columns={this.columns}
           dataSource={list}

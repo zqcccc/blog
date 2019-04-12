@@ -28,7 +28,7 @@ export default class Main extends React.Component{
                 </div>
 
                 <div className="index-about">
-                    <i>The blog for react-course</i>
+                    <i>The react blog</i>
                 </div>
 
                 <div className="index-container">

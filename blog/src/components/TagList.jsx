@@ -29,11 +29,11 @@ class TagList extends React.Component{
         let tagKeys = new Set()
         if (list && list.size) {
             for (let i of list.values()) {
-                i.tags.map(tag => {
-                    tagKeys.add(tag)
-                    let t = tags.get(tag) || []
-                    t.push(i)
-                    tags.set(tag, t)
+                i.tag.map(tag => {
+                    tagKeys.add(tag.name)
+                    let t = tags.get(tag.name) || []
+                    t.unshift(i)
+                    tags.set(tag.name, t)
                 })
             }
         }
@@ -41,9 +41,9 @@ class TagList extends React.Component{
         // let tagKeys = new Set();
         // let tags = this.state.tags || new Map();
         // let tagKeys = this.state.tagKeys || new Set();
-        
+
         // TODO: 设定 tags 和 tagKeys
-        
+
         return (<div>
             <div id='tag_cloud' className="tags">
                 {Array.from(tagKeys).map((tagKey, keyIndex) =>
@@ -58,7 +58,7 @@ class TagList extends React.Component{
                     </span>
                     {tags.get(tagKey).map((item, itemIndex) =>
                         <div className={'post-preview'} key={itemIndex}>
-                            <Link to={'/article/' + item.pathName}>
+                            <Link to={'/article/' + item.title}>
                                 <h2 className={'post-title'}>
                                     {item.title}
                                 </h2>

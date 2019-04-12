@@ -17,22 +17,12 @@ class ArticleList extends React.Component {
         this.state = {
             begin:0,
             pageSize: 8,
-            list: []
         }
     }
 
-    async componentDidMount(){
+    componentDidMount(){
         // TODO：拉取数据
-        if(this.props.list && !this.props.list.size) {
-          this.props.getList()
-        }
-        // const res = await axios.get('/api/article')
-        // console.log('res: ', res);
-        // if(res.data && res.data.code && res.data.data) {
-        //   this.setState({
-        //     list: res.data.data
-        //   })
-        // }
+        this.props.getList()
     }
 
     nextPage(){
@@ -51,7 +41,7 @@ class ArticleList extends React.Component {
 
         const { list: listMap } = this.props
         const list = sortByDate([...listMap.values()])
-        // const list = this.state.list
+
         // return (
         //   <div>
         //     111
@@ -67,7 +57,7 @@ class ArticleList extends React.Component {
                                 {moment(item.date).format('YYYY-MM-DD')}
                             </div>
                             <div className={"post-info"}>
-                                <Link to={'/article/' + item._id}>
+                                <Link to={'/article/' + item.pathName}>
                                     <h3>
                                         {item.title}
                                     </h3>
@@ -75,7 +65,7 @@ class ArticleList extends React.Component {
                                 <p>
                                     <span>/</span>
                                     {item.tag.map((tag, tagIndex) =>
-                                        <span key={tag + tagIndex}> {tag.name} /</span>
+                                        <span key={tag + tagIndex}> {tag} /</span>
                                     )}
                                 </p>
                             </div>
@@ -97,7 +87,10 @@ class ArticleList extends React.Component {
     }
 }
 
-const mapStateToProps = ({ status, list }) => ({ status, list })
+const mapStateToProps = (state) => {
+    const { status, list } = state
+    return { status, list }
+}
 // const mapDispatchToProps = dispatch => ({
 //     // 例如：yourAction:bindActionCreators(yourAction, dispatch),
 // })

@@ -33,7 +33,7 @@ module.exports = {
       return false
     }
     try {
-      const res = await Comment.find({ articleId }).sort({
+      const res = await Comment.find({ article: articleId }).sort({
         update_at: '-1'
       })
       ctx.body = {

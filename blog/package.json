@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A simple react blog with webpack and babel.",
   "scripts": {
-    "start": "npx webpack-dev-server --port 8081",
+    "start": "npx webpack-dev-server",
     "build": "npx webpack"
   },
   "repository": {
@@ -46,6 +46,7 @@
     "react-redux": "^5.0.7",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
+    "react-syntax-highlighter": "^10.2.1",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0"
   }

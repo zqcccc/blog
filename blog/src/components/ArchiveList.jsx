@@ -48,7 +48,7 @@ class ArchiveList extends React.Component{
         // 分年月归档信息整理
 
         return(<div className={"archives-container"}>
-            {Array.from(years).map((year, yearIndex) =>
+            {Array.from(years).sort().reverse().map((year, yearIndex) =>
                 <div className={"one-tag-list"} key={yearIndex}>
 
                     <span className={"fa fa-calendar-times-o listing-seperator"}>
@@ -60,7 +60,7 @@ class ArchiveList extends React.Component{
                             <li key={index}>
                                 <span>{moment(item.date).format('MM-DD')}</span>
                                 <i className="fa fa-angle-double-right" aria-hidden="true" />
-                                <Link to={'/article/' + item.pathName}>
+                                <Link to={'/article/' + item._id}>
                                     <span>
                                         {item.title}
                                     </span>
