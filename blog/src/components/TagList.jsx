@@ -58,7 +58,7 @@ class TagList extends React.Component{
                     </span>
                     {tags.get(tagKey).map((item, itemIndex) =>
                         <div className={'post-preview'} key={itemIndex}>
-                            <Link to={'/article/' + item.title}>
+                            <Link to={'/article/' + item._id}>
                                 <h2 className={'post-title'}>
                                     {item.title}
                                 </h2>

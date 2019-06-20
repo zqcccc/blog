@@ -104,10 +104,10 @@ class NormalLoginForm extends React.Component {
               >
                 Log in
               </Button>
-              Or{' '}
+              {/* Or{' '}
               <a href="" onClick={this.handleUnOpen}>
                 register now!
-              </a>
+              </a> */}
             </Form.Item>
           </Form>
         </Col>
